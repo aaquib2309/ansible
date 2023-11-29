@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - group: 
+        name: admin
+        state: present
+
+    - user: 
+        name: admin
+        group: admin
+        uid: 2048 
