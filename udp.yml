@@ -1,0 +1,12 @@
+---
+- hosts: web1
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: block 161/udp port on web1 
+      firewalld:
+        port: 161/udp
+        state: enabled
+        zone: block
+        permanent: yes
+        immediate: yes
