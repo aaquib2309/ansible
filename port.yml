@@ -1,0 +1,18 @@
+---
+- hosts: web1
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: install httpd
+      yum:
+        name: httpd
+        state: present
+    - name: change httpd port to 8080
+      replace:
+        path : /etc/httpd/conf/httpd.conf
+        regexp: "Listen 80"
+        replace: "Listen 8080"
+    - name: restart the service
+      service:
+        name: httpd
+        state: restarted  
