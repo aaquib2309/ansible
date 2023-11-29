@@ -1,0 +1,26 @@
+---
+- hosts: web1
+  become: yes
+  tasks: 
+    - name: Install nginx on web1
+      yum:
+        name: nginx
+        state: present
+
+    - name: start/enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Extract nginx.zip
+      unarchive:
+        src: /root/nginx.zip
+        dest: /usr/share/nginx/html        
+        remote_src: yes
+
+    - name: replace line
+      replace:
+        path: /usr/share/nginx/html/index.html
+        regexp: 'This is sample html code'
+        replace: 'This is aaquib Ansible lab'  
