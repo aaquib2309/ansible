@@ -1,0 +1,9 @@
+---
+- hosts: web1
+  become: yes
+  tasks:
+    - name: download and extract the zip
+      unarchive:
+        src: https://github.com/kodekloudhub/Hello-World/archive/master.zip
+        dest: /root
+        remote_src: yes 
