@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create a news.tar.gz file on all servers
+      archive:
+        path: /usr/src/sysops/
+        dest: /opt/sysops/news.tar.gz
+        format: gz
+
+    - name: set owner and group of app server 1
+      file:
+        path: /opt/sysops/news.tar.gz
+        group: tony
+        owner: tony
+      when: "'stapp01' in inventory_hostname"
+
+    - name: set owner and group of app server 2
+      file:
+        path: /opt/sysops/news.tar.gz
+        group: steve
+        owner: steve
+      when: "'stapp02' in inventory_hostname"
+
+    - name: set owner and group of app server 3
+      file:
+        path: /opt/sysops/news.tar.gz
+        group: banner
+        owner: banner
+      when: "'stapp03' in inventory_hostname"
