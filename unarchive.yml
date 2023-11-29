@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: unzip datacenter.zip file in /opt/finance/
+      unarchive:
+        src: /usr/src/finance/datacenter.zip
+        dest: /opt/finance/
+
+    - name: The extracted data permissions must be 0777.
+      command: chmod 0777 -R /opt/finance/  
+
+    - name: set owner and group on app server1
+      command: chown -R tony:tony /opt/finance/
+      when: "'stapp01' in inventory_hostname"
+
+    - name: set owner and group on app server2
+      command: chown -R steve:steve /opt/finance/
+      when: "'stapp02' in inventory_hostname"
+
+    - name: set owner and group on app server3
+      command: chown -R banner:banner /opt/finance/
+      when: "'stapp03' in inventory_hostname" 
