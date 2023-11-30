@@ -1,0 +1,50 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create an empty file blog.txt
+      file:
+        path: /opt/itadmin/blog.txt
+        state: touch
+        owner: 'tony'
+        group: 'tony'
+      when: "'stapp01' in inventory_hostname"
+
+    - name: Create a symbolic link /opt/itadmin to /var/www/html
+      file:
+        src: /opt/itadmin
+        dest: /var/www/html
+        state: link
+      when: "'stapp01' in inventory_hostname"  
+
+    - name: create an empty file story.txt
+      file:
+        path: /opt/itadmin/story.txt
+        state: touch
+        owner: 'steve'
+        group: 'steve'
+        state: touch
+      when: "'stapp02' in inventory_hostname"
+
+    - name: Create a symbolic link /opt/itadmin to /var/www/html
+      file:
+        src: /opt/itadmin
+        dest: /var/www/html
+        state: link
+      when: "'stapp02' in inventory_hostname"     
+
+    - name: create an empty file media.txt
+      file:
+        path: /opt/itadmin/media.txt
+        state: touch
+        owner: 'banner'
+        group: 'banner'
+        state: touch
+      when: "'stapp03' in inventory_hostname"
+
+    - name: Create a symbolic link /opt/itadmin to /var/www/html
+      file:
+        src: /opt/itadmin
+        dest: /var/www/html
+        state: link
+      when: "'stapp03' in inventory_hostname"
