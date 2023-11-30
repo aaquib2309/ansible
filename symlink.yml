@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Create an empty file blog.txt and symlink /opt/itadmin to /var/www/html
+      file: 
+        path: /opt/itadmin/blog.txt
+        state: touch
+        owner: "{{ item.owner }}"
+        group: "{{ item.owner }}"
+      when: "'{{ item.host }}' in inventory_hostname"
+      loop:
+        - { host: 'stapp01', owner: 'tony', group: 'tony' }
+        - { host: 'stapp02', owner: 'steve', group: 'steve' }
+        - { host: 'stapp03', owner: 'banner', group: 'banner' }
+
+    - name: Create a symbolic link /opt/itadmin to /var/www/html
+      file:
+        src: /opt/itadmin
+        dest: /var/www/html
+        state: link
+      when: "'{{ item.host}}' in inventory_hostname"
+      loop:
+        - { host: 'stapp01' }
+        - { host: 'stapp02' }
+        - { host: 'stapp03' }
