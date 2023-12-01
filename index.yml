@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Create a file
+      file:
+        path: /root/facts.txt
+        state: touch
+        
+    - name: use blockinfile to add some text
+      blockinfile:
+        path: /root/facts.txt
+        block: |
+          Ansible managed node architecture is {{ ansible_architecture }}
+
+    - name: install httpd on app servr.
+      yum:
+        name: httpd
+        state: present
+
+    - name: make a copy of file.txt to index.html 
+      command: "cp /root/facts.txt /var/www/html/index.html"
+
+    - name: Start and Enable httpd
+      service:
+        name: httpd
+        state: started  
+        enabled: yes
