@@ -1,0 +1,14 @@
+> Run all the command on ansible_controller
+
+> ssh-keygen
+> ssh-copy-id tony@172.16.238.10
+> ssh-copy-id steve@172.16.238.11
+> ssh-copy-id banner@172.16.238.12
+
+> vi inventory 
+stapp01 ansible_host=172.16.238.10 ansible_user=tony 
+stapp02 ansible_host=172.16.238.11 ansible_user=steve
+stapp03 ansible_host=172.16.238.12 ansible_user=banner
+
+> ansible -i inventory -m ping all
+> ansible -i inventory -m ping stapp02
