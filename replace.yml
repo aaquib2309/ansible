@@ -1,0 +1,24 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: replace module replace string xFusionCorp to Nautilus on app server1.      
+      replace:
+        path: /opt/itadmin/blog.txt
+        regexp: "xFusionCorp" 
+        replace: "Nautilus"
+      when: "'stapp01' in inventory_hostname"
+     
+    - name: replace module replace the string Nautilus to KodeKloud on app server2
+      replace:
+        path: /opt/itadmin/story.txt
+        regexp: "Nautilus"
+        replace: "KodeKloud"
+      when: "'stapp02' in inventory_hostname"
+     
+    - name: replace module replace string KodeKloud to xFusionCorp Industries on app server3
+      replace:
+        path: /opt/itadmin/media.txt
+        regexp: "KodeKloud"
+        replace: "xFusionCorp Industries"
+      when: "'stapp03' in inventory_hostname"     
