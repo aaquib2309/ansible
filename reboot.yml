@@ -1,6 +1,7 @@
 ---
 - name: Cleanup /tmp after every reboot
   hosts: node00
+  become: yes
   tasks:
    - cron:
       name: cleanup
