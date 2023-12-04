@@ -1,0 +1,48 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Create a file blog.txt
+      file: 
+        path: /opt/security/blog.txt 
+        state: touch
+      when: "'stapp01' in inventory_hostname"  
+
+    - name: Set ACL properties for blog.txt
+      acl:
+        path: /opt/security/blog.txt
+        entity: tony
+        etype: group
+        permissions: r
+        state: present
+      when: "'stapp01' in inventory_hostname"
+      
+    - name: Create a file story.txt
+      file: 
+        path: /opt/security/story.txt 
+        state: touch
+      when: "'stapp02' in inventory_hostname"  
+
+    - name: Set ACL properties for blog.txt
+      acl:
+        path: /opt/security/story.txt
+        entity: steve
+        etype: user
+        permissions: rw
+        state: present
+      when: "'stapp02' in inventory_hostname"        
+
+    - name: Create a file media.txt
+      file: 
+        path: /opt/security/media.txt 
+        state: touch
+      when: "'stapp03' in inventory_hostname"  
+
+    - name: Set ACL properties for media.txt
+      acl:
+        path: /opt/security/media.txt
+        entity: banner
+        etype: group
+        permissions: rw
+        state: present  
+      when: "'stapp03' in inventory_hostname"
