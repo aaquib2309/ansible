@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks: 
+    - name: Install ngnix
+      yum:
+        name: nginx
+        state: present
+
+    - name: Copy index.html
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/                
+
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes 
