@@ -1,0 +1,9 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: give ssh access on all the remote servers to John Doe
+      authorized_key:
+        user: root
+        key: "{{ lookup('file', 'john_doe.pub') }}"
+        state: present
