@@ -1,0 +1,10 @@
+> vi update_version.yml
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: update awscli 
+      pip:
+        name: awscli
+        state: latest
+        executable: pip3
