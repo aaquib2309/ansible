@@ -1,4 +1,3 @@
-> vi update_version.yml
 ---
 - hosts: all
   become: yes
