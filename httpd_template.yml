@@ -1,7 +1,7 @@
 ---
-- hosts: stapp03
+- hosts: stapp02
   become: yes
-  tasks: 
+  tasks:
     - name: Install httpd and php
       yum:
         name: "{{ item }}"
@@ -10,34 +10,37 @@
         - httpd
         - php
 
-    - name: Ensure /var/www/html/myroot exists
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Create a file myroot
       file:
         path: /var/www/html/myroot
         state: directory
         mode: '0755'
-        owner: apache
-        group: apache
+        owner: 'apache'
+        group: 'apache'
 
     - name: Change default document root in httpd.conf
-      lineinfile: 
+      lineinfile:
         path: /etc/httpd/conf/httpd.conf
-        regex: '^DocumentRoot'
-        line: 'DocumentRoot "/var/www/html/myroot"'    
-      notify: 
-        restart: Restart Apache
+        regex: '^DocumentRoot "/var/www/html"'
+        line: 'DocumentRoot "/var/www/html/myroot"'   
+      notify: restart apache    
 
     - name: Copy phpinfo.php template
       template:
         src: /home/thor/playbooks/templates/phpinfo.php.j2
-        dest: /var/www/html/myroot/
+        dest: /var/www/html/myroot/phpinfo.php
+        mode: '0644'
         owner: 'apache'
         group: 'apache'
-        mode: '0644'
-        remote_src: no #The template only available on controler that's why i used {no}, If its available on remote then {yes}
 
   handlers:
-    - name: Restart Apache
+    - name: restart apache
       systemd:
         name: httpd
-        state: restarted
-        enabled: yes
+        state: restarted      
