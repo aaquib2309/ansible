@@ -13,5 +13,6 @@ This repository serves as a collection of my updated Ansible playbooks that I us
 1. Clone this repository:
 
    ```bash
-   https://github.com/aaquib2309/ansible.git
+   git clone https://github.com/aaquib2309/ansible.git
+   cd ansible
    
