@@ -28,3 +28,22 @@
         group: 'banner'
         mode: '0655'
       when: "'stapp03' in inventory_hostname"
+
+# OR you can use the below the playbook
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Copy files to App Servers
+      copy:
+        src: "/usr/src/dba/{{ item.file }}"
+        dest: /opt/dba
+        owner: "{{ item.owner }}"
+        group: "{{ item.group }}"
+        mode: '0655'
+      when: "inventory_hostname in item.hostnames"
+      loop:
+        - { file: 'blog.txt', owner: 'tony', group: 'tony', hostnames: ['stapp01'] }
+        - { file: 'story.txt', owner: 'steve', group: 'steve', hostnames: ['stapp02'] }
+        - { file: 'media.txt', owner: 'banner', group: 'banner', hostnames: ['stapp03'] }
