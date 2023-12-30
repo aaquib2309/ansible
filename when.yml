@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Copy blog.txt on App-Server-1
+      copy:
+        src: /usr/src/dba/blog.txt    
+        dest: /opt/dba
+        owner: 'tony'
+        group: 'tony'
+        mode: '0655'
+      when: "'stapp01' in inventory_hostname"   
+
+    - name: Copy story.txt on App-Server-2
+      copy:
+        src: /usr/src/dba/story.txt
+        dest: /opt/dba
+        owner: 'steve'
+        group: 'steve'
+        mode: '0655'
+      when: "'stapp02' in inventory_hostname"
+
+    - name: Copy media.txt on App-Server-3
+      copy:
+        src: /usr/src/dba/media.txt
+        dest: /opt/dba
+        owner: 'banner'
+        group: 'banner'
+        mode: '0655'
+      when: "'stapp03' in inventory_hostname"
